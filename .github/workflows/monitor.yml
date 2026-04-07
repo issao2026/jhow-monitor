@@ -1,0 +1,61 @@
+name: Monitor Concorrentes
+
+on:
+  schedule:
+    # 09:00 horario de Brasilia (BRT = UTC-3)
+    - cron: '0 12 * * *'
+    # 17:00 horario de Brasilia
+    - cron: '0 20 * * *'
+  workflow_dispatch:
+    # Permite disparar manualmente pelo GitHub (botao "Run workflow")
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias Python
+        run: pip install -r requirements.txt
+
+      - name: Instalar Playwright e navegador Chromium
+        run: |
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Instalar surge CLI
+        run: npm install -g surge
+
+      - name: Criar arquivo .env com credenciais
+        run: |
+          echo "IG_USER=${{ secrets.IG_USER }}" > .env
+          echo "IG_PASS=${{ secrets.IG_PASS }}" >> .env
+          echo "ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}" >> .env
+
+      - name: Restaurar sessao Instagram (cache entre runs)
+        uses: actions/cache@v4
+        with:
+          path: session.json
+          key: instagram-session-v1
+          restore-keys: instagram-session-v1
+
+      - name: Rodar monitor
+        env:
+          JHOW_DIR: /tmp/jhow
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        run: python monitor.py
+
+      - name: Salvar sessao Instagram para proximo run
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: session.json
+          key: instagram-session-v1

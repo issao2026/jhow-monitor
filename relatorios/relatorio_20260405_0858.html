@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monitor Concorrentes - 05/04/2026 08:58</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',sans-serif; background:#f0f4ff; color:#0f172a; }
+  header { background:linear-gradient(135deg,#1e3a8a,#1a56db); color:#fff; padding:28px 40px; }
+  header h1 { font-size:24px; font-weight:800; }
+  header p  { font-size:13px; opacity:.7; margin-top:4px; }
+  .badges { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .badge { background:rgba(255,255,255,.18); border-radius:20px; padding:4px 14px; font-size:12px; font-weight:600; }
+  .container { max-width:1200px; margin:0 auto; padding:32px 20px; display:flex; flex-direction:column; gap:28px; }
+  .card { background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,.08); }
+  .card-header { display:flex; justify-content:space-between; align-items:center; padding:18px 28px; border-bottom:2px solid #e2e8f0; background:#f8faff; }
+  .card-header h2 { font-size:18px; color:#1a56db; font-weight:800; }
+  .nome-loja { font-size:12px; color:#64748b; display:block; }
+  .ver-ig { font-size:12px; font-weight:700; color:#1a56db; text-decoration:none; }
+  .ver-ig:hover { text-decoration:underline; }
+  .bloco { padding:20px 28px; border-bottom:1px solid #e2e8f0; }
+  .bloco:last-child { border-bottom:none; }
+  .bloco-titulo { font-size:13px; font-weight:700; color:#374151; margin-bottom:14px; display:flex; align-items:center; gap:6px; }
+  .icone { font-size:16px; }
+  /* Stories */
+  .stories-grid { display:flex; gap:14px; flex-wrap:wrap; }
+  .story-card { position:relative; width:120px; }
+  .story-card a { display:block; position:relative; text-decoration:none; }
+  .story-card img { width:120px; height:213px; object-fit:cover; border-radius:10px; border:2px solid #dbeafe; display:block; }
+  .story-card a:hover img { border-color:#1a56db; opacity:.92; }
+  .play-icon { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:rgba(0,0,0,.55); color:#fff; font-size:28px; width:48px; height:48px;
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    pointer-events:none; padding-left:4px; }
+  .video-placeholder { width:120px; height:213px; background:#1e293b; border-radius:10px;
+    border:2px solid #dbeafe; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; gap:8px; color:#94a3b8; font-size:11px; }
+  .play-icon-big { font-size:36px; color:#fff; }
+  .story-num { font-size:11px; color:#94a3b8; text-align:center; margin-top:4px; }
+  /* Destaque venda — borda dourada + brilho */
+  .story-card.destaque img,
+  .story-card.destaque .video-placeholder {
+    border:3px solid #f59e0b !important;
+    box-shadow:0 0 12px rgba(245,158,11,.55);
+    border-radius:10px;
+  }
+  .story-card.destaque .story-num { color:#b45309; font-weight:700; }
+  /* Categoria badge */
+  .cat-badge { font-size:10px; font-weight:700; padding:2px 7px; border-radius:20px; margin-bottom:5px; display:inline-block; }
+  .cat-badge.venda { background:#fef3c7; color:#92400e; }
+  .cat-badge.outro { background:#f1f5f9; color:#64748b; }
+  /* Posts */
+  .perfil-shot { width:100%; max-height:280px; object-fit:cover; border-radius:10px; border:1px solid #e2e8f0; margin-bottom:12px; }
+  .perfil-wrap { margin-bottom:12px; }
+  .posts-grid { display:flex; flex-wrap:wrap; gap:6px; }
+  .post-thumb { position:relative; width:90px; height:90px; overflow:hidden; border-radius:8px; border:1px solid #e2e8f0; display:block; }
+  .post-thumb img { width:100%; height:100%; object-fit:cover; }
+  .post-overlay { position:absolute; inset:0; background:rgba(26,86,219,.75); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; opacity:0; transition:.2s; }
+  .post-thumb:hover .post-overlay { opacity:1; }
+  .sem { color:#94a3b8; font-size:13px; padding:8px 0; }
+  footer { text-align:center; color:#94a3b8; font-size:12px; padding:28px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>&#128202; Monitor de Concorrentes</h1>
+  <p>Loja Jhow Motos &mdash; Votorantim, SP</p>
+  <div class="badges">
+    <span class="badge">&#128336; 05/04/2026 08:58</span>
+    <span class="badge">&#9989; 5/5 perfis</span>
+    <span class="badge">&#127897; 27 stories</span>
+    <span class="badge">&#128248; 33 posts</span>
+  </div>
+</header>
+<div class="container">
+
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <h2>@gordinhomotos10</h2>
+              <span class="nome-loja">Gordinho Motos</span>
+            </div>
+            <a href="https://www.instagram.com/gordinhomotos10/" target="_blank" class="ver-ig">Abrir no Instagram &rarr;</a>
+          </div>
+
+          <div class="bloco">
+            <div class="bloco-titulo">
+              <span class="icone">&#128247;</span> Stories (7)
+            </div>
+            <div class="stories-grid">
+                <div class="story-card">
+                  
+                  <a href="../assets/gordinhomotos10/stories/story_1_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/gordinhomotos10/stories/story_1_20260405_0858.png" alt="Story 1"></a>
+                  <div class="story-num">#1</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/gordinhomotos10/stories/story_2_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/gordinhomotos10/stories/story_2_20260405_0858.png" alt="Story 2"></a>
+                  <div class="story-num">#2</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/gordinhomotos10/stories/story_3_20260405_0858.jpg" target="_blank" title="Clique para ampliar"><img src="../assets/gordinhomotos10/stories/story_3_20260405_0858.jpg" alt="Story 3"></a>
+                  <div class="story-num">#3</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/gordinhomotos10/stories/story_4_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/gordinhomotos10/stories/story_4_20260405_0858.png" alt="Story 4"></a>
+                  <div class="story-num">#4</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/gordinhomotos10/stories/story_5_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/gordinhomotos10/stories/story_5_20260405_0858.png" alt="Story 5"></a>
+                  <div class="story-num">#5</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/gordinhomotos10/stories/story_6_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/gordinhomotos10/stories/story_6_20260405_0858.png" alt="Story 6"></a>
+                  <div class="story-num">#6</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/gordinhomotos10/stories/story_7_20260405_0858.jpg" target="_blank" title="Clique para ampliar"><img src="../assets/gordinhomotos10/stories/story_7_20260405_0858.jpg" alt="Story 7"></a>
+                  <div class="story-num">#7</div>
+                </div></div>
+          </div>
+
+          <div class="bloco">
+            <div class="bloco-titulo">
+              <span class="icone">&#128248;</span> Posts recentes (6)
+            </div>
+            <div class="perfil-wrap"><img src="../assets/gordinhomotos10/perfil_20260405_0858.png" class="perfil-shot"></div>
+            <div class="posts-grid">
+            <a href="https://www.instagram.com/gordinhomotos10/p/DWtikLBFM_R/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/660941536_18354806440228909_2982287506054115299_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=Mzg2Nzg5OTMxNDY1NjU1NDc4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwMjR4MTI4MC5zZHIuQzMifQ%3D%3D&_nc_ohc=c1v7cqRpmTUQ7kNvwFNkIeT&_nc_oc=Adr4SZpoTM0vm9bdAzXpuEYmbPHuyaA82mBulfQko2lNoT3KMc5JIpyQ1r5_tOEza5cgugwZslGW3WFEsoEAXDp4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=honBwp2Vety4yjizMlG8EQ&_nc_ss=7a32e&oh=00_Af3NKwPekgbD3W6GHO38DGFuT08YgIlidAtpbLQ3uOMlfw&oe=69D82C5C" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/bike_lifebrasil/p/DWpAxmQEcyP/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/659173434_17993798273936423_3131532114278306645_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=Mzg2NjYyNDAwODMzMTA1ODYzMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTgwMC5zZHIuQzMifQ%3D%3D&_nc_ohc=xDql_RBdPfYQ7kNvwGbNwnj&_nc_oc=Adope4YHAzRbsKP8P4tbpRw3zFzbUULxwIM5lD8sl4dotr-6e0D7hfOwu0KYwuCnO0C3YC2m-x92S_EgeKzlTMEN&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=honBwp2Vety4yjizMlG8EQ&_nc_ss=7a32e&oh=00_Af3cxfxDqoNpL6Yg0Oc0BWTee3nQjhrIZxCtGDyeXeD_cg&oe=69D8070D" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/gordinhomotos10/p/DWhQjpJlOcn/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/657666307_18354201136228909_7176089318835737968_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ig_cache_key=Mzg2NDQ0MjI4ODY0MzMwMTk2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwMjR4MTI4MC5zZHIuQzMifQ%3D%3D&_nc_ohc=-ZcpStxTaG0Q7kNvwFSqtDq&_nc_oc=Adoso-6U6p3TH_ZRePVlt_Lc9yHwHnPEHibDiV4X6xlSC61WFXArwGZ8Ym2hpq2JuxVj3GdLF2-Ih3pAe7RvE2cY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=honBwp2Vety4yjizMlG8EQ&_nc_ss=7a32e&oh=00_Af0HIlIZCYhHqjtQ959yV7tZoaGu5C_qJZNKO--JKdfPNA&oe=69D80F29" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/gordinhomotos10/p/DWZdrBUElxB/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/656880845_18353801122228909_1918824713407321461_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ig_cache_key=Mzg2MjI0ODE0NDUyMDc1NTc2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwMjR4MTI4MC5zZHIuQzMifQ%3D%3D&_nc_ohc=AcSl9uZdloMQ7kNvwFsn5Sz&_nc_oc=Adq-aJLWVf20vjlKiYAe_-e_NH0ARemx5ZraqCPYuDMVtLMcCKLNoR3c_7hGARZ5D0cDg1syKOwfDujUovusE32W&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=honBwp2Vety4yjizMlG8EQ&_nc_ss=7a32e&oh=00_Af2TkbDWNysp9QehzQ6gUFcjgAjSie7THnyVIUD-PIDKYA&oe=69D81BF0" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/gordinhomotos10/p/DWUYvcTEv1v/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/658729585_18353527945228909_4405347392923245954_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ig_cache_key=Mzg2MDgxOTAxODIxMTU3MTg0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwMjR4MTI4MC5zZHIuQzMifQ%3D%3D&_nc_ohc=vKOwCQ0f6w0Q7kNvwEXbT4H&_nc_oc=Adoc2iggIbXnh15so3300ZxkUuyzQOhqyI-1G_RRXZ5AQHQDNSMBhPqVhcbHtsmufnPeMDiGmWNl86coa4aWFHpT&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=honBwp2Vety4yjizMlG8EQ&_nc_ss=7a32e&oh=00_Af0smHwf8Oo5A7b1IMuOGCJW7BTjJ2T4me3LiXvEcC4irQ&oe=69D82B29" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/gordinhomotos10/p/DWRxE6QlE4K/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/656381109_18353381395228909_4877282626839650019_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ig_cache_key=Mzg2MDA4MTcwODY1ODU5MjYzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwMjR4MTI4MC5zZHIuQzMifQ%3D%3D&_nc_ohc=k4oRXWSxy3AQ7kNvwF7oFaA&_nc_oc=AdpzqytEFNGqaRHPU2TTqNwaEdvR03SQihMOwlbl8kYt6IUW5RyBn_tHhp1lvzLBkvsjpoMHpyXBzrNXEw7ooI8n&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=honBwp2Vety4yjizMlG8EQ&_nc_ss=7a32e&oh=00_Af1vn9l80_bU6X4pSWMp4scIb2TuLaMjTjqpGJ_7O0GJdw&oe=69D83C39" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a></div>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <h2>@prado_motos</h2>
+              <span class="nome-loja">Prado Motos</span>
+            </div>
+            <a href="https://www.instagram.com/prado_motos/" target="_blank" class="ver-ig">Abrir no Instagram &rarr;</a>
+          </div>
+
+          <div class="bloco">
+            <div class="bloco-titulo">
+              <span class="icone">&#128247;</span> Stories (2)
+            </div>
+            <div class="stories-grid">
+                <div class="story-card">
+                  
+                  <a href="../assets/prado_motos/stories/story_1_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/prado_motos/stories/story_1_20260405_0858.png" alt="Story 1"></a>
+                  <div class="story-num">#1</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/prado_motos/stories/story_2_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/prado_motos/stories/story_2_20260405_0858.png" alt="Story 2"></a>
+                  <div class="story-num">#2</div>
+                </div></div>
+          </div>
+
+          <div class="bloco">
+            <div class="bloco-titulo">
+              <span class="icone">&#128248;</span> Posts recentes (9)
+            </div>
+            <div class="perfil-wrap"><img src="../assets/prado_motos/perfil_20260405_0858.png" class="perfil-shot"></div>
+            <div class="posts-grid">
+            <a href="https://www.instagram.com/prado_motos/p/DWokwI8DpEq/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/659575213_18099415370052096_6420321606925750960_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ig_cache_key=Mzg2NjUwMTg4MjE2MDUzMzc4MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=0z9DZbTaQrEQ7kNvwG_MbJz&_nc_oc=AdoKq9gsUYvI8sa46WvVNtNJmNaQhdnc6L79mfOgiktOppkd-ihPbj3ZiUDd1xIWJF03PQwpMcPtb37ldZPSYZRp&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=6GQtW3j-TdNC37-LdSZmxA&_nc_ss=7a32e&oh=00_Af2KLT6vvq00_H4JgmXvfgOWoI-D0XrV12kSXnpt7TOSLw&oe=69D81036" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/prado_motos/p/DWmDP6rDk5x/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/658727547_18099319514052096_2207687163482844414_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ig_cache_key=Mzg2NTc5MTU3NjEwNzAxMDU4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=km-k_4q645wQ7kNvwFDvzAQ&_nc_oc=AdrSkY1Jk9uU74FhoCCS01orgQro67Yc2u9dhMFc-6yHxp0xqU7w2t9myFKSu0XMv2DkXL97zk9zfis5fWIGmQI7&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=6GQtW3j-TdNC37-LdSZmxA&_nc_ss=7a32e&oh=00_Af2KrtcNuZ7hac2Nx5SheyFQe1e-SGDaiby9dUVmPpFVOA&oe=69D82A02" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/prado_motos/p/DWjrnHPDl4p/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/658810214_18099222524052096_7853774040533507271_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ig_cache_key=Mzg2NTEyNDY2MzYyNjQ5NDYzMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=9V82MqDQ604Q7kNvwGNaEFm&_nc_oc=AdqeTl773wzwPd0WBvapV3Kv-sDYIrsSsggnLKwYDDUzxTjQ1ZhFng71iEjXgYePD_hmk9FOAopuh4aqfWXLY6h-&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=6GQtW3j-TdNC37-LdSZmxA&_nc_ss=7a32e&oh=00_Af0xtxdV6h3CDVkX-atSX0_FuTy2OLbc-2mwsgfOKlhbIQ&oe=69D81C48" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/prado_motos/p/DWgxA8SDm0x/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/657346403_18099105047052096_5268060523419591826_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=Mzg2NDMwNDAwNTQxNzk0MDU5Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=72nRT17CFIUQ7kNvwGES2RR&_nc_oc=Ado6K8GfbqFzLIqFlrT0t2mIYhO3ucBntXq5BsTlYA33x62UIJ_ZxajPHPKMgoW13sTklwU1wlj30OCNvgxF0E1n&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=6GQtW3j-TdNC37-LdSZmxA&_nc_ss=7a32e&oh=00_Af1bnJFeQ-RsFxALvCB3RDLIKJn6zPnV987e-Gr3Hq2KXg&oe=69D80D5E" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/prado_motos/p/DWblSmNDi2k/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/655763621_18098890496052096_3934694018259215563_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=Mzg2Mjg0NTA3NDUxODcyNzMwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=gx6f_lhlJ_UQ7kNvwEPeDWq&_nc_oc=AdoODVSen0fG2Fst0xJCIOZZuYtcetLRWOsUg9nhfy_D43dkpc7xXuHpL8sOSL8VUDeAqG1TzR1YdhG3ATQJTqCU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=6GQtW3j-TdNC37-LdSZmxA&_nc_ss=7a32e&oh=00_Af1DInsSlGy5OJIoiqJIP4Yj03tvvtKH7Lmy3mZKyEpVuw&oe=69D832CD" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/prado_motos/p/DWXFCvXmL2z/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/657666791_18098718050052096_5556506651476944991_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=Mzg2MTU3NzM0NjAyNTUyMzEyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=w6Gq0Q55jtgQ7kNvwGQF-cm&_nc_oc=Adqdj87zmPWLSg8fah-zpe2EqyOCCVscCraDNWvaGN38Df_AHNuu9RKrgCxOZNkPsT0f6DYV7NjCcMaUj8OwJx6L&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=6GQtW3j-TdNC37-LdSZmxA&_nc_ss=7a32e&oh=00_Af0ZmVhBbn5xdJsV-elb9_iMEzrlOcugaVSg4_1gEM5aFg&oe=69D80FB2" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/prado_motos/p/DWW-YVuDrHc/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/658599268_18098713217052096_2902191585180196924_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&ig_cache_key=Mzg2MTU0ODA0NTQ0MDAyMTA5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=QcJtn9RcF3IQ7kNvwEyffS7&_nc_oc=AdqNWF479XnhxdRCCrejQfztJPz6LgKqxZdSFVGgfH3s0OOVzu4nedwkP5ognaDKjO5B3qLGS_c-42nIo3pWjLCu&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=6GQtW3j-TdNC37-LdSZmxA&_nc_ss=7a32e&oh=00_Af3RB6-Y2RybEdz3kxBRFoTQehx30M5AbnhyMaGAM_1SKw&oe=69D82DC6" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/prado_motos/p/DWTvx8nDszB/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/655221188_18098571581052096_5120933025123901029_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ig_cache_key=Mzg2MDYzOTM5NDcyNjU0OTk5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=wH_kbhNw-akQ7kNvwGt8gfK&_nc_oc=Adqd18zVx3Tkzm3TJukAwCijpeg9Uk2gr2gS6cvyaexMTkhrqOXI60wRYGRdWGDB4_OXF6P02W75aXNxQJauGjpY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=6GQtW3j-TdNC37-LdSZmxA&_nc_ss=7a32e&oh=00_Af2lflhMR_8GpfYWfqiDU0Xjgcw4fo79QILVos_S8z6Wpw&oe=69D822CA" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/prado_motos/p/DWRR9YnjtiJ/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/656284685_18098471189052096_6664543025773123568_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=Mzg1OTk0NTI1MjA4NjIzMjk3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=We-3n8IL2vUQ7kNvwGATin2&_nc_oc=AdpNazIeACzvVB2jI4ZeL2eKvjvPSUsfDOGxMbkXaGJvfETgpcDQwcEfOiWICT14KnQPl4uXuznWGPN8ITo29hOI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=6GQtW3j-TdNC37-LdSZmxA&_nc_ss=7a32e&oh=00_Af0Ri5fHyKwCGxjJsH9tTxQ4NC0Qq9L_Y_XTDW3K_Eg1BA&oe=69D82627" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a></div>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <h2>@_robsonsmotos</h2>
+              <span class="nome-loja">Robson Motos</span>
+            </div>
+            <a href="https://www.instagram.com/_robsonsmotos/" target="_blank" class="ver-ig">Abrir no Instagram &rarr;</a>
+          </div>
+
+          <div class="bloco">
+            <div class="bloco-titulo">
+              <span class="icone">&#128247;</span> Stories (0)
+            </div>
+            <div class="stories-grid"><p class="sem">Nenhum story ativo no momento</p></div>
+          </div>
+
+          <div class="bloco">
+            <div class="bloco-titulo">
+              <span class="icone">&#128248;</span> Posts recentes (7)
+            </div>
+            <div class="perfil-wrap"><img src="../assets/_robsonsmotos/perfil_20260405_0858.png" class="perfil-shot"></div>
+            <div class="posts-grid">
+            <a href="https://www.instagram.com/_robsonsmotos/p/DWpioJ2kRdp/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/659692278_18068967809667168_7771672779480358950_n.jpg?stp=dst-jpegr_e35_tt6&_nc_cat=101&ig_cache_key=Mzg2Njc3MjczMjg0Nzk1MjUwNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTA4MC5oZHIuQzMifQ%3D%3D&_nc_ohc=cwGVMU_6LrAQ7kNvwGUvwau&_nc_oc=AdoZG5NwLuU8sIuLj6Nyujr8eGDGoh0hegNDoH4--5hUv2joi2XbGssJtCSZz2lDARTW1T8dzEHAW5O-qrtvx1RN&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=48XEQ9YcEdjPbpIk84FLlQ&_nc_ss=7a32e&oh=00_Af2x1MmUzUfQH1HRRbQFuD3PjBCMD2Sf_nnbUOtQBjm1rQ&oe=69D8091B" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/_robsonsmotos/p/DWpiAVDkUfY/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/658962440_18068967437667168_3089559865499776885_n.jpg?stp=dst-jpegr_e35_tt6&_nc_cat=101&ig_cache_key=Mzg2Njc3MDU2Mjg4Mjg0MDI0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTA4MC5oZHIuQzMifQ%3D%3D&_nc_ohc=K81nD_BnJvwQ7kNvwGe4bbF&_nc_oc=AdpwkjrFOtlFtuvPgMxmY_vzxhCasqEhT3Gq3Vi3NTJIDlntw4RIBSjm8NAt7ChiLx7z77dbOjpJPfV6oW3F102k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=48XEQ9YcEdjPbpIk84FLlQ&_nc_ss=7a32e&oh=00_Af0gcfCn2hTGEjCBq31VEqZRvIHzWzmoH112xfVjcqOytg&oe=69D83577" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/_robsonsmotos/p/DWphw8wEQSf/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/658384280_18068967170667168_4971733952140429822_n.jpg?stp=dst-jpegr_e35_tt6&_nc_cat=101&ig_cache_key=Mzg2Njc2OTAyNzQwNjgyNTU3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTA4MC5oZHIuQzMifQ%3D%3D&_nc_ohc=mXFhwvHGGkUQ7kNvwH7oFvG&_nc_oc=AdriJPM54zACLoHIYw018u2nhjxr2UjYfeT6E6AFl_CAdd6lr4OQCunIhs5ED99D6sADEoprKEkyvWJH6szCqlJU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=48XEQ9YcEdjPbpIk84FLlQ&_nc_ss=7a32e&oh=00_Af2ofhs-pCVlO-hLb4xyWEAK87LmezPcJu-5qHQlOQoBOw&oe=69D83CF3" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/_robsonsmotos/p/DWphZ7DkREe/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/658957254_18068966978667168_8127765557733706533_n.jpg?stp=dst-jpegr_e35_tt6&_nc_cat=105&ig_cache_key=Mzg2Njc2NzU2OTg2MTA0NTA0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTA4MC5oZHIuQzMifQ%3D%3D&_nc_ohc=q9Xp0xAZgUsQ7kNvwFvepxw&_nc_oc=AdpYJmg-oLbHy4N02i7THfWrNCdHz5sUrWU4a1I_7ZejjZ4vt8CQzNI-onrxAqxvj0nWN5xfe-Hrxn87WQw167li&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=48XEQ9YcEdjPbpIk84FLlQ&_nc_ss=7a32e&oh=00_Af1et14EO3frjrkoC3MHQYQIrTaX4dJoHh4UathJWwcvsw&oe=69D815E0" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/_robsonsmotos/p/DWpg__DkQdM/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/658966386_18068966687667168_370222936893524570_n.jpg?stp=dst-jpegr_e35_tt6&_nc_cat=101&ig_cache_key=Mzg2Njc2NjUwNTg1ODQyOTgyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTA4MC5oZHIuQzMifQ%3D%3D&_nc_ohc=FINV-1qEyZQQ7kNvwEpPd2G&_nc_oc=Adpe2uClXHdZd2SaEubQyoIJDgeIpc2Vuq8O4tbLo73M9D9rkD0Fx5_08ki8rTonwKU7wdHUsgjyzKfZ_uBB9B5T&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=48XEQ9YcEdjPbpIk84FLlQ&_nc_ss=7a32e&oh=00_Af0_EjRXC42T2CgIkyfRvlahBZhWGhMqt6lRgyWEMa6ZwQ&oe=69D82625" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/_robsonsmotos/p/DWpg1Z5Eabv/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/658797223_18068966285667168_3687558177707214066_n.jpg?stp=dst-jpegr_e35_tt6&_nc_cat=105&ig_cache_key=Mzg2Njc2NTM1MjAzODkxNzkxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTA4MC5oZHIuQzMifQ%3D%3D&_nc_ohc=tXqgTxdlGusQ7kNvwEhwxjD&_nc_oc=Adoj82wmvPA_5BzV42eKJ3AhdHVwi6ODQYwlwa5f55mO9IoZKplDOpW0U3XbXn7uG0XttY-XcxObyrJh5sE0Y4CE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=48XEQ9YcEdjPbpIk84FLlQ&_nc_ss=7a32e&oh=00_Af2idokUJnHOw8Me-UzFjcWR4etlM9HMjVlZdAyG85kD9w&oe=69D8250B" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/_robsonsmotos/p/DWVGBMfjSVr/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/658371914_18067951583667168_8250381323844657912_n.jpg?stp=dst-jpegr_e35_tt6&_nc_cat=104&ig_cache_key=Mzg2MTAxODA3MDYyNjQ2MDc4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTA4MC5oZHIuQzMifQ%3D%3D&_nc_ohc=WOpCXF3j8V4Q7kNvwHsTFG4&_nc_oc=AdqNtr2Spsu40Ae4xr_bWmTGlkC2QBoR0Jmf_KOjiYgR4k5pYdsCyuLye2oyEOzxuCsLumu0nguCcSA_AtKaeJYj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=48XEQ9YcEdjPbpIk84FLlQ&_nc_ss=7a32e&oh=00_Af259tnTdI-gqUhr4nzKNvlFzeFXDONAT0YAQzxLv6pgOA&oe=69D8072C" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a></div>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <h2>@rodolfomotosvotorantim</h2>
+              <span class="nome-loja">Rodolfo Motos</span>
+            </div>
+            <a href="https://www.instagram.com/rodolfomotosvotorantim/" target="_blank" class="ver-ig">Abrir no Instagram &rarr;</a>
+          </div>
+
+          <div class="bloco">
+            <div class="bloco-titulo">
+              <span class="icone">&#128247;</span> Stories (3)
+            </div>
+            <div class="stories-grid">
+                <div class="story-card">
+                  
+                  <a href="../assets/rodolfomotosvotorantim/stories/story_1_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/rodolfomotosvotorantim/stories/story_1_20260405_0858.png" alt="Story 1"></a>
+                  <div class="story-num">#1</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/rodolfomotosvotorantim/stories/story_2_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/rodolfomotosvotorantim/stories/story_2_20260405_0858.png" alt="Story 2"></a>
+                  <div class="story-num">#2</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/rodolfomotosvotorantim/stories/story_3_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/rodolfomotosvotorantim/stories/story_3_20260405_0858.png" alt="Story 3"></a>
+                  <div class="story-num">#3</div>
+                </div></div>
+          </div>
+
+          <div class="bloco">
+            <div class="bloco-titulo">
+              <span class="icone">&#128248;</span> Posts recentes (5)
+            </div>
+            <div class="perfil-wrap"><img src="../assets/rodolfomotosvotorantim/perfil_20260405_0858.png" class="perfil-shot"></div>
+            <div class="posts-grid">
+            <a href="https://www.instagram.com/rodolfomotosvotorantim/p/DWbZA0ulmVz/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/658185058_18449195920107974_5100457551045444385_n.webp?_nc_cat=109&ig_cache_key=Mzg2Mjc4OTcxOTk1Njg1MDM4Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTY4My5zZHIuQzMifQ%3D%3D&_nc_ohc=M0sNXFjQxc4Q7kNvwHc_8uv&_nc_oc=AdrmtxMHWyBt9PF2hY0ZPazWdG9xrQqz9fPqSlxxA8l3nOPjeGR4V-LuGTvldHpNiJuEp-mhCZXFwobtbmTyW3Ki&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=xIhDv_NHwo-NWxvtKk9LWw&_nc_ss=7a32e&oh=00_Af1RUvDPOHN4-Z26wO3pyXsKmbcpaXsEXdmpe0hvIDuRdA&oe=69D82E8B" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/rodolfomotosvotorantim/p/DWbYLUcljQ7/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/658958117_18449195230107974_6843352873780080271_n.webp?_nc_cat=100&ig_cache_key=Mzg2Mjc4MDgzNjIxOTY5MTI4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTY1OS5zZHIuQzMifQ%3D%3D&_nc_ohc=95f2QfRQ8JsQ7kNvwFp1BN7&_nc_oc=AdpVjDk6KtX2FYGiuIaQBA1F5sUUYn-J1Qo4g6rML0Pj9m51DLEOXi5X5jUxPu1x-kFcK4cwVtKNP34nvdMk4OKU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=xIhDv_NHwo-NWxvtKk9LWw&_nc_ss=7a32e&oh=00_Af0gnVDyPfpTMWp4EdBhTYgG-LaCkb3E3n3Q-jE63rd12w&oe=69D81426" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/rodolfomotosvotorantim/p/DWbWK5NFosv/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/655896399_18449192374107974_7041601079109829486_n.webp?_nc_cat=111&ig_cache_key=Mzg2Mjc3Nzg3MTg5NTMwMTQyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTY1Mi5zZHIuQzMifQ%3D%3D&_nc_ohc=_RjlNeFIFrgQ7kNvwFulBnh&_nc_oc=AdpQklFjDi2uFPFBO5wpR5NkiFvgVfI2tlW3GeiOJIEE-I0h3OKJWOFbVb2Kv7UFIz9YQ2GYuzdyxo76m7DeRlmh&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=xIhDv_NHwo-NWxvtKk9LWw&_nc_ss=7a32e&oh=00_Af182Lu_NmgG6B1quXPURehY2ihhgGpsE9CucED9YQNRTA&oe=69D81458" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/rodolfomotosvotorantim/p/DWZ_xu5ltHH/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/658550594_18449096560107974_4513251771048263672_n.webp?_nc_cat=109&ig_cache_key=Mzg2MjM5Nzk3MTk4ODQyMzQyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTY4Ni5zZHIuQzMifQ%3D%3D&_nc_ohc=nbqFpty2QUgQ7kNvwHPqL5p&_nc_oc=Adrxig7Ey1I66wt7NQhX-lL8dn-VQ2OTiPho-eOOJYoFFdSBKymDXtMu_00LlP2zSpkNwLbjbjyBrGyNiFTl3gny&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=xIhDv_NHwo-NWxvtKk9LWw&_nc_ss=7a32e&oh=00_Af1QUblV6wJRISw1tNDYp5qxPhaOU1GNXgqSBVxA3vufdw&oe=69D827B2" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/rodolfomotosvotorantim/p/DWZ-8JLlrTv/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/658873494_18449095930107974_7673565793735070240_n.webp?_nc_cat=100&ig_cache_key=Mzg2MjM5MzgzMDc0MjM4NTMzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTY5NC5zZHIuQzMifQ%3D%3D&_nc_ohc=UC_3hjHXb50Q7kNvwHD_NnR&_nc_oc=Adod8Xpafdy1Z94K3IewW0iUIIOQ2zYP8HOhMoXe2QgPjTqs6i-1htmC7vmaEW9QPGMyuJd7v5LoanErUl9NZrKD&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=xIhDv_NHwo-NWxvtKk9LWw&_nc_ss=7a32e&oh=00_Af2MEvKpp2GitBqwwyMrj5bmiuwDYfvrJGxbhP7o2SgtVA&oe=69D82716" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a></div>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-header">
+            <div>
+              <h2>@startmotosoficial</h2>
+              <span class="nome-loja">Start Motos</span>
+            </div>
+            <a href="https://www.instagram.com/startmotosoficial/" target="_blank" class="ver-ig">Abrir no Instagram &rarr;</a>
+          </div>
+
+          <div class="bloco">
+            <div class="bloco-titulo">
+              <span class="icone">&#128247;</span> Stories (15)
+            </div>
+            <div class="stories-grid">
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_1_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_1_20260405_0858.png" alt="Story 1"></a>
+                  <div class="story-num">#1</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_2_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_2_20260405_0858.png" alt="Story 2"></a>
+                  <div class="story-num">#2</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_3_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_3_20260405_0858.png" alt="Story 3"></a>
+                  <div class="story-num">#3</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_4_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_4_20260405_0858.png" alt="Story 4"></a>
+                  <div class="story-num">#4</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_5_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_5_20260405_0858.png" alt="Story 5"></a>
+                  <div class="story-num">#5</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_6_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_6_20260405_0858.png" alt="Story 6"></a>
+                  <div class="story-num">#6</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_7_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_7_20260405_0858.png" alt="Story 7"></a>
+                  <div class="story-num">#7</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_8_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_8_20260405_0858.png" alt="Story 8"></a>
+                  <div class="story-num">#8</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_9_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_9_20260405_0858.png" alt="Story 9"></a>
+                  <div class="story-num">#9</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_10_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_10_20260405_0858.png" alt="Story 10"></a>
+                  <div class="story-num">#10</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_11_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_11_20260405_0858.png" alt="Story 11"></a>
+                  <div class="story-num">#11</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_12_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_12_20260405_0858.png" alt="Story 12"></a>
+                  <div class="story-num">#12</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_13_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_13_20260405_0858.png" alt="Story 13"></a>
+                  <div class="story-num">#13</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_14_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_14_20260405_0858.png" alt="Story 14"></a>
+                  <div class="story-num">#14</div>
+                </div>
+                <div class="story-card">
+                  
+                  <a href="../assets/startmotosoficial/stories/story_15_20260405_0858.png" target="_blank" title="Clique para ampliar"><img src="../assets/startmotosoficial/stories/story_15_20260405_0858.png" alt="Story 15"></a>
+                  <div class="story-num">#15</div>
+                </div></div>
+          </div>
+
+          <div class="bloco">
+            <div class="bloco-titulo">
+              <span class="icone">&#128248;</span> Posts recentes (6)
+            </div>
+            <div class="perfil-wrap"><img src="../assets/startmotosoficial/perfil_20260405_0858.png" class="perfil-shot"></div>
+            <div class="posts-grid">
+            <a href="https://www.instagram.com/startmotosoficial/p/DWuVyb7DUed/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t39.30808-6/663176031_1648865070096942_3594829025741506214_n.jpg?stp=c0.45.1080.1350a_dst-jpg_e35_tt6&_nc_cat=110&ig_cache_key=Mzg2ODEyNDkzNjkxMzM3NzE1Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTQ0MC5zZHIuQzMifQ%3D%3D&_nc_ohc=X36C7WqXr5EQ7kNvwHZrT0c&_nc_oc=AdoOqPPYXNmeZQkTl3VltW7M6sDu7Efjx1OgjjYMTSzMBHSWj6r3M9vzOevPeuolDoEChj5rlf28D2MDP3ULTFd2&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=6_zsoT0Mf_ljRctgRn68kg&_nc_ss=7a32e&oh=00_Af3Bry4OFGq7H-T5O3mMkqdOamMB0LAA13NoQQu_ImrKzA&oe=69D8169F" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/startmotosoficial/p/DWuBy_VARct/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t39.30808-6/660450012_1648862880097161_5745793572230588542_n.jpg?stp=c0.45.1080.1350a_dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=Mzg2ODAzNzAxNDM0MzQ4MjQ4Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTQ0MC5zZHIuQzMifQ%3D%3D&_nc_ohc=2rWdn2o5PakQ7kNvwFoDzAB&_nc_oc=AdqXI8MGokTQbLMsGd7b3tDiAP2bYc5wOLKIem7vr6rKe63HxN1jqClkhL26P0Zt1jHuoPpPzSFnsVKbKIzGIq-N&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=6_zsoT0Mf_ljRctgRn68kg&_nc_ss=7a32e&oh=00_Af35DpWyll7K9p0kh0fBavxATdF3c4rpMjttR0HIECGuXA&oe=69D83160" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/startmotosoficial/p/DWtz50ZkS3H/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t39.30808-6/663304462_1648860753430707_1248848529945677076_n.jpg?stp=c0.45.1080.1350a_dst-jpg_e35_tt6&_nc_cat=104&ig_cache_key=Mzg2Nzk3NTkwOTA3MzA2NTI0OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTQ0MC5zZHIuQzMifQ%3D%3D&_nc_ohc=qHrqBMub_PsQ7kNvwERvUSu&_nc_oc=AdonOwdLEesHHMezOoXNtDKLWbzBwQ_kp9XFHx9nJTejRNPeR6UnVtlnHwXgYNt4FFGatFd35QBjzisVQc8G0TPN&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=6_zsoT0Mf_ljRctgRn68kg&_nc_ss=7a32e&oh=00_Af26JyJc0n0qIRzc9hH-YKfLWdQRtGQ-Qk57UlHq6uyN6A&oe=69D81E68" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/startmotosoficial/p/DWmzaJbGvnb/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/658027015_18113059921748507_8782762726506493271_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=Mzg2NTk2MTA4ODAyMzE0NDQxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTQ0MC5zZHIuQzMifQ%3D%3D&_nc_ohc=yNkCkl9rQT4Q7kNvwHvKN2k&_nc_oc=AdoP0KsKcE1AiQPMM_ecvL4BsSopEGBP9y2BQW7MVpuYJDPbuvuvtcVa_2HSg-id5z38ZQWwE1QmPAhb-3gCeMA4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=6_zsoT0Mf_ljRctgRn68kg&_nc_ss=7a32e&oh=00_Af0Pl_COPhOaGH9QYkKsb034qPykvEpR0Sfh2l-RLhLFHA&oe=69D8315D" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/startmotosoficial/p/DWmuRKimkXL/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh11-1.fna.fbcdn.net/v/t51.82787-15/657603091_18113060620748507_3513246973558156316_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=Mzg2NTk2ODY3ODA3NzYxMTkzNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTQ0MC5zZHIuQzMifQ%3D%3D&_nc_ohc=LY8BKMfxkA8Q7kNvwE9nLsN&_nc_oc=Adoa-tSUa8by4zFQCU1NaD54_9EIwHe0K9ZQ5FfeAEGkG4lF5ZlKrzhhCoJtxgjj2d_axPKK5-2nbr-z6_Tfiual&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh11-1.fna&_nc_gid=6_zsoT0Mf_ljRctgRn68kg&_nc_ss=7a32e&oh=00_Af1-Cymp8pGtMKG1_-AUSoKa--bIv9q0By9YmJdAVWBUgg&oe=69D830B3" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a>
+            <a href="https://www.instagram.com/startmotosoficial/p/DWmn7-aGr2K/" target="_blank" class="post-thumb">
+              <img src="https://instagram.fcgh37-1.fna.fbcdn.net/v/t51.82787-15/658912931_18113059027748507_2235508367841599965_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ig_cache_key=Mzg2NTk1Mjc0NjUyNTYwMzgzOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTQ0MC5zZHIuQzMifQ%3D%3D&_nc_ohc=nVF46G2pnxQQ7kNvwHxiYmY&_nc_oc=AdrqLoQPMy3DggVkK9UUFIjTSVFZMHwGvPHrpT3isq-VN8Oto1ITxDZ7_Uw9NaW5fPVQx3aWSb8qHwCeO7Y9Z97i&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fcgh37-1.fna&_nc_gid=apO0i9-GrC0KLN1dsg8Ywg&_nc_ss=7a32e&oh=00_Af3ZPWdMFTZGrqxYdjueZFpKvYGNiMI0QqtWRCEsIG-JiA&oe=69D82EF3" onerror="this.style.display='none'">
+              <div class="post-overlay">Ver post</div>
+            </a></div>
+          </div>
+        </section>
+</div>
+<footer>Monitor automatico 2x/dia &mdash; Jhow Motos 2026</footer>
+</body>
+</html>
