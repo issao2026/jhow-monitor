@@ -302,11 +302,11 @@ def capturar_stories_instagram(page, username, nome, run_dir):
     try:
         page.goto(f"https://www.instagram.com/stories/{username}/",
                   timeout=30000, wait_until="domcontentloaded")
-        page.wait_for_timeout(2500)  # aguardar app Bloks inicializar
-        page.remove_listener("response", _capturar_ids_api)
+        page.wait_for_timeout(3500)  # aguardar app Bloks inicializar + API responder
 
         # Verificacao basica: a pagina tem "stories" e o username na URL
         if "stories" not in page.url or username not in page.url:
+            page.remove_listener("response", _capturar_ids_api)
             print(f"  {nome}: sem stories ativos")
             return stories
 
@@ -328,10 +328,11 @@ def capturar_stories_instagram(page, username, nome, run_dir):
             story1_url_generica = f"https://www.instagram.com/stories/{username}/"
 
         # Navegar com tap coletando IDs dos stories 2, 3, 4...
+        # ultimo_sid: inicializar com sid0 se story 1 tem ID (evita break prematuro)
         ads_consecutivos = 0
         dup_consecutivos  = 0  # mesmo ID repetido = URL nao atualizou (story lento)
-        ultimo_sid        = None
-        for _ in range(50):
+        ultimo_sid        = sid0 if m0 else None
+        for _ in range(60):
             page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
             cur = page.url
             if "stories" not in cur:
@@ -347,10 +348,10 @@ def capturar_stories_instagram(page, username, nome, run_dir):
                 if m:
                     sid = m.group(1)
                     if sid in ids_set:
-                        # Pode ser URL lenta — so para depois de 3 dups consecutivos
+                        # Pode ser URL lenta — aguardar ate 8 dups antes de desistir
                         if sid == ultimo_sid:
                             dup_consecutivos += 1
-                            if dup_consecutivos >= 3:
+                            if dup_consecutivos >= 8:
                                 break
                         else:
                             # Voltou ao inicio: encerrar
@@ -363,12 +364,22 @@ def capturar_stories_instagram(page, username, nome, run_dir):
             # TAP no lado direito — simula toque real em viewport mobile
             vp = page.viewport_size or {"width": 430, "height": 932}
             page.touchscreen.tap(int(vp["width"] * 0.82), int(vp["height"] * 0.45))
-            # Aguardar ate 5s pela mudanca de URL (stories pesados podem demorar)
-            for _ in range(33):
+            # Aguardar ate 8s pela mudanca de URL (GitHub Actions / CDN pode ser lento)
+            for _ in range(53):
                 page.wait_for_timeout(150)
                 if page.url != cur:
                     page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
                     break
+
+        # Remover listener apos loop (captura IDs durante toda a navegacao)
+        page.remove_listener("response", _capturar_ids_api)
+
+        # Suplementar story_ids com api_ids capturados via rede (mais completo)
+        print(f"  {nome}: Pass1 tap={len(story_ids)} IDs, api={len(api_ids)} IDs")
+        for aid in api_ids:
+            if aid not in ids_set:
+                ids_set.add(aid)
+                story_ids.append(aid)
 
     except Exception as e:
         try:
@@ -1514,7 +1525,9 @@ def main():
     # Publicar no surge.sh automaticamente
     publicar_surge(run_dir, timestamp, resultados)
 
-    subprocess.Popen(["cmd", "/c", "start", "", ultimo])
+    # Abrir relatorio no browser (somente Windows local, nao no CI)
+    if sys.platform == "win32" and ultimo:
+        subprocess.Popen(["cmd", "/c", "start", "", ultimo])
 
 
 if __name__ == "__main__":
