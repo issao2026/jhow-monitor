@@ -327,15 +327,18 @@ def capturar_stories_instagram(page, username, nome, run_dir):
             # Guardamos a URL generica para capturar story 1 em Pass 2
             story1_url_generica = f"https://www.instagram.com/stories/{username}/"
 
-        # Navegar com ArrowRight coletando IDs dos stories 2, 3, 4...
+        # Navegar com tap coletando IDs dos stories 2, 3, 4...
         ads_consecutivos = 0
-        for _ in range(40):
+        dup_consecutivos  = 0  # mesmo ID repetido = URL nao atualizou (story lento)
+        ultimo_sid        = None
+        for _ in range(50):
             page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
             cur = page.url
             if "stories" not in cur:
                 break
             if username not in cur:
                 ads_consecutivos += 1
+                dup_consecutivos = 0
                 if ads_consecutivos >= 5:
                     break
             else:
@@ -344,14 +347,24 @@ def capturar_stories_instagram(page, username, nome, run_dir):
                 if m:
                     sid = m.group(1)
                     if sid in ids_set:
-                        break
-                    ids_set.add(sid)
-                    story_ids.append(sid)
+                        # Pode ser URL lenta — so para depois de 3 dups consecutivos
+                        if sid == ultimo_sid:
+                            dup_consecutivos += 1
+                            if dup_consecutivos >= 3:
+                                break
+                        else:
+                            # Voltou ao inicio: encerrar
+                            break
+                    else:
+                        dup_consecutivos = 0
+                        ids_set.add(sid)
+                        story_ids.append(sid)
+                    ultimo_sid = sid
             # TAP no lado direito — simula toque real em viewport mobile
-            # (mouse.click nao funciona no Instagram Bloks, touchscreen.tap sim)
             vp = page.viewport_size or {"width": 430, "height": 932}
             page.touchscreen.tap(int(vp["width"] * 0.82), int(vp["height"] * 0.45))
-            for _ in range(20):
+            # Aguardar ate 5s pela mudanca de URL (stories pesados podem demorar)
+            for _ in range(33):
                 page.wait_for_timeout(150)
                 if page.url != cur:
                     page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
@@ -1096,26 +1109,58 @@ def publicar_surge(run_dir, timestamp, resultados):
                 tunnel_url = tunnel_file.read_text(encoding="utf-8").strip()
             except Exception:
                 pass
-        if tunnel_url:
-            btn_atualizar = f"""<button onclick="atualizarRemoto()" style="background:#22c55e;color:#fff;border:none;border-radius:20px;padding:8px 20px;font-size:13px;font-weight:800;cursor:pointer;margin-left:10px;transition:opacity .15s;" id="btn-atualizar">&#9654; Atualizar Stories</button>
-<script>
-function atualizarRemoto() {{
-  var btn = document.getElementById('btn-atualizar');
-  btn.disabled = true; btn.textContent = '⏳ Coletando...';
-  fetch('{tunnel_url}/run', {{mode:'cors'}})
-    .then(r => r.json())
-    .then(d => {{
-      btn.textContent = d.iniciou ? '✅ Iniciado! Aguarde ~2min e recarregue' : '⏳ Já em andamento...';
-      setTimeout(() => {{ btn.disabled=false; btn.textContent='▶ Atualizar Stories'; }}, 15000);
-    }})
-    .catch(() => {{
-      btn.textContent = '⚠️ Servidor offline';
-      setTimeout(() => {{ btn.disabled=false; btn.textContent='▶ Atualizar Stories'; }}, 5000);
-    }});
-}}
+        # Injetar script de auto-atualizacao via GitHub Actions
+        # Token lido de env var (nao hardcoded no codigo)
+        GH_TOKEN  = os.environ.get("WORKFLOW_TOKEN", "")
+        GH_OWNER  = "issao2026"
+        GH_REPO   = "jhow-monitor"
+        GH_WF     = "monitor.yml"
+        auto_script = f"""<script>
+(async function autoAtualizar() {{
+  var OWNER = '{GH_OWNER}', REPO = '{GH_REPO}', WF = '{GH_WF}';
+  var TOKEN = '{GH_TOKEN}';
+  var HDR = {{'Authorization':'Bearer '+TOKEN,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}};
+  var banner = document.createElement('div');
+  banner.style = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:#1a56db;color:#fff;font-size:14px;font-weight:700;padding:12px 24px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.2)';
+  function showBanner(msg, cor) {{ banner.textContent = msg; banner.style.background = cor||'#1a56db'; if(!banner.parentNode) document.body.prepend(banner); }}
+  try {{
+    // Verificar runs recentes
+    var r = await fetch('https://api.github.com/repos/'+OWNER+'/'+REPO+'/actions/runs?per_page=5',{{headers:HDR}});
+    var d = await r.json();
+    var runs = d.workflow_runs||[];
+    var emAndamento = runs.find(function(x){{return x.status==='in_progress'||x.status==='queued';}});
+    var ultimo = runs.find(function(x){{return x.status==='completed';}});
+    // Se dados sao recentes (< 4 min), nao disparar novo run
+    if (!emAndamento && ultimo) {{
+      var diff = (Date.now() - new Date(ultimo.updated_at).getTime()) / 60000;
+      if (diff < 4) return; // ja esta atualizado
+    }}
+    if (!emAndamento) {{
+      // Disparar novo run
+      await fetch('https://api.github.com/repos/'+OWNER+'/'+REPO+'/actions/workflows/'+WF+'/dispatches',
+        {{method:'POST',headers:HDR,body:JSON.stringify({{ref:'main'}})}});
+      showBanner('Buscando stories... aguarde ~2 minutos');
+    }} else {{
+      showBanner('Coletando stories em andamento...');
+    }}
+    // Aguardar 15s antes de comecar a verificar
+    await new Promise(function(res){{setTimeout(res,15000);}});
+    var poll = setInterval(async function() {{
+      try {{
+        var pr = await fetch('https://api.github.com/repos/'+OWNER+'/'+REPO+'/actions/runs?per_page=1',{{headers:HDR}});
+        var pd = await pr.json();
+        var run = pd.workflow_runs&&pd.workflow_runs[0];
+        if (run && run.status==='completed') {{
+          clearInterval(poll);
+          showBanner('Stories atualizados! Recarregando...', '#16a34a');
+          setTimeout(function(){{location.reload(true);}}, 1500);
+        }}
+      }} catch(e) {{}}
+    }}, 12000);
+  }} catch(e) {{ console.log('auto-update erro:', e); }}
+}})();
 </script>"""
-            # Injetar antes do </header>
-            html_standalone = html_standalone.replace("</header>", btn_atualizar + "\n</header>", 1)
+        html_standalone = html_standalone.replace("</body>", auto_script + "\n</body>", 1)
 
         (SURGE_DIR / "index.html").write_text(html_standalone, encoding="utf-8")
         # Localizar surge: PATH ou caminho fixo do npm global
