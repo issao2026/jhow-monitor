@@ -250,143 +250,142 @@ def dispensar_overlay(page):
     return False
 
 
+def _pass1_coletar_ids(page, username, nome, espera_inicial=4000):
+    """
+    Pass 1: navega para os stories e coleta todos os IDs via tap.
+    Retorna (story_ids, ids_set, story1_url_generica).
+    """
+    story_ids = []
+    ids_set   = set()
+    story1_url_generica = None
+    sid0 = None
+
+    page.goto(f"https://www.instagram.com/stories/{username}/",
+              timeout=35000, wait_until="domcontentloaded")
+    page.wait_for_timeout(espera_inicial)
+
+    if "stories" not in page.url or username not in page.url:
+        return story_ids, ids_set, story1_url_generica
+
+    # Pausar video e dispensar overlays
+    page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
+    dispensar_overlay(page)
+    page.wait_for_timeout(500)
+    page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
+
+    # Aguardar video ou imagem de story aparecer (confirma que app Bloks carregou)
+    for _ in range(20):
+        tem_midia = page.evaluate("""() => {
+            return document.querySelector('video') !== null
+                || document.querySelector('img[decoding]') !== null;
+        }""")
+        if tem_midia:
+            break
+        page.wait_for_timeout(300)
+
+    # Story 1: verificar se URL ja tem ID ou e URL generica
+    m0 = re.search(r'/stories/' + re.escape(username) + r'/(\d+)/', page.url)
+    if m0:
+        sid0 = m0.group(1)
+        ids_set.add(sid0)
+        story_ids.append(sid0)
+    else:
+        story1_url_generica = f"https://www.instagram.com/stories/{username}/"
+
+    # Loop de tap para coletar IDs dos stories 2, 3, 4...
+    ads_consecutivos = 0
+    dup_consecutivos  = 0
+    ultimo_sid        = sid0
+
+    for _ in range(80):
+        page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
+        cur = page.url
+
+        if "stories" not in cur:
+            break
+        if username not in cur:
+            ads_consecutivos += 1
+            dup_consecutivos = 0
+            if ads_consecutivos >= 5:
+                break
+        else:
+            ads_consecutivos = 0
+            m = re.search(r'/stories/' + re.escape(username) + r'/(\d+)/', cur)
+            if m:
+                sid = m.group(1)
+                if sid in ids_set:
+                    if sid == ultimo_sid:
+                        dup_consecutivos += 1
+                        if dup_consecutivos >= 10:
+                            break
+                    else:
+                        break  # voltou ao inicio
+                else:
+                    dup_consecutivos = 0
+                    ids_set.add(sid)
+                    story_ids.append(sid)
+                ultimo_sid = sid
+
+        # TAP lado direito da tela
+        vp = page.viewport_size or {"width": 430, "height": 932}
+        page.touchscreen.tap(int(vp["width"] * 0.82), int(vp["height"] * 0.45))
+
+        # Aguardar mudanca de URL ate 9s
+        for _ in range(60):
+            page.wait_for_timeout(150)
+            if page.url != cur:
+                page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
+                break
+
+    return story_ids, ids_set, story1_url_generica
+
+
 def capturar_stories_instagram(page, username, nome, run_dir):
     """2 passos:
-    1. Ciclar rapidamente pelos stories coletando IDs (sem capturar)
+    1. Ciclar rapidamente pelos stories coletando IDs (sem capturar) — com retry
     2. Navegar diretamente em cada story_id e capturar com video pausado
     """
     stories = []
     pasta = run_dir / username
     pasta.mkdir(parents=True, exist_ok=True)
 
-    # ── PASSO 1: coletar IDs de todos os stories ──────────────────────────────
+    # ── PASSO 1: coletar IDs — tenta ate 3 vezes se captura < 2 IDs ─────────
     story_ids = []
     ids_set   = set()
-    api_ids   = []   # IDs capturados via interceptacao de API (mais confiavel)
+    story1_url_generica = None
 
-    def _capturar_ids_api(response):
-        """Intercepta resposta JSON do Instagram e extrai PKs de stories."""
-        ct = response.headers.get("content-type", "")
-        if "json" not in ct:
-            return
+    MAX_TENTATIVAS = 3
+    for tentativa in range(1, MAX_TENTATIVAS + 1):
+        espera = 4000 + (tentativa - 1) * 2000  # 4s / 6s / 8s
         try:
-            txt = response.text()
-            # Pre-filtro rapido: so processar respostas com campos de story
-            if '"expiring_at"' not in txt and '"story_pk"' not in txt:
-                return
-            if '"pk"' not in txt:
-                return
-            data = json.loads(txt)
-            def _scan(obj, depth=0):
-                if depth > 12:
-                    return
-                if isinstance(obj, list):
-                    for item in obj:
-                        if isinstance(item, dict) and "pk" in item and (
-                                "expiring_at" in item or "story_pk" in item):
-                            pk = str(item["pk"])
-                            if len(pk) >= 10 and pk not in api_ids:
-                                api_ids.append(pk)
-                        else:
-                            _scan(item, depth + 1)
-                elif isinstance(obj, dict):
-                    for v in obj.values():
-                        _scan(v, depth + 1)
-            _scan(data)
-        except Exception:
-            pass
+            s_ids, s_set, s_url = _pass1_coletar_ids(page, username, nome, espera)
+        except Exception as e:
+            print(f"  {nome}: Pass1 tentativa {tentativa} erro — {e}")
+            s_ids, s_set, s_url = [], set(), None
 
-    page.on("response", _capturar_ids_api)
-    story1_url_generica = None  # story 1 nao tem ID na URL no Instagram Bloks
+        total_tap = len(s_ids) + (1 if s_url else 0)
+        print(f"  {nome}: Pass1 tentativa {tentativa} — {len(s_ids)} IDs tap + {'URL generica' if s_url else 'sem URL generica'}")
 
-    try:
-        page.goto(f"https://www.instagram.com/stories/{username}/",
-                  timeout=30000, wait_until="domcontentloaded")
-        page.wait_for_timeout(3500)  # aguardar app Bloks inicializar + API responder
+        # Se nao tem stories: confirmar com tentativa extra so se tentativa 1
+        if total_tap == 0 and tentativa == 1:
+            continue
 
-        # Verificacao basica: a pagina tem "stories" e o username na URL
-        if "stories" not in page.url or username not in page.url:
-            page.remove_listener("response", _capturar_ids_api)
-            print(f"  {nome}: sem stories ativos")
-            return stories
+        # Se capturou mais que na tentativa anterior, usar esses IDs
+        if len(s_ids) > len(story_ids):
+            story_ids = s_ids
+            ids_set   = s_set
+            story1_url_generica = s_url
 
-        # Pausar video antes de qualquer processamento
-        page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
-        dispensar_overlay(page)
-        page.wait_for_timeout(300)
-        page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
+        # Se capturou > 1 ID via tap (tem mais de 1 story com ID), confiar
+        if len(s_ids) >= 1:
+            break
 
-        # Se o URL ja tem o ID do story 1 (raro), registrar
-        m0 = re.search(r'/stories/' + re.escape(username) + r'/(\d+)/', page.url)
-        if m0:
-            sid0 = m0.group(1)
-            ids_set.add(sid0)
-            story_ids.append(sid0)
-        else:
-            # URL generica: story 1 esta sendo exibido mas sem ID na URL
-            # Guardamos a URL generica para capturar story 1 em Pass 2
-            story1_url_generica = f"https://www.instagram.com/stories/{username}/"
+        # Se so tem URL generica (1 story) e nao ha IDs, pode ser que realmente
+        # so tem 1 story — mas fazer mais 1 tentativa para confirmar
+        if tentativa < MAX_TENTATIVAS:
+            page.wait_for_timeout(3000)
 
-        # Navegar com tap coletando IDs dos stories 2, 3, 4...
-        # ultimo_sid: inicializar com sid0 se story 1 tem ID (evita break prematuro)
-        ads_consecutivos = 0
-        dup_consecutivos  = 0  # mesmo ID repetido = URL nao atualizou (story lento)
-        ultimo_sid        = sid0 if m0 else None
-        for _ in range(60):
-            page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
-            cur = page.url
-            if "stories" not in cur:
-                break
-            if username not in cur:
-                ads_consecutivos += 1
-                dup_consecutivos = 0
-                if ads_consecutivos >= 5:
-                    break
-            else:
-                ads_consecutivos = 0
-                m = re.search(r'/stories/' + re.escape(username) + r'/(\d+)/', cur)
-                if m:
-                    sid = m.group(1)
-                    if sid in ids_set:
-                        # Pode ser URL lenta — aguardar ate 8 dups antes de desistir
-                        if sid == ultimo_sid:
-                            dup_consecutivos += 1
-                            if dup_consecutivos >= 8:
-                                break
-                        else:
-                            # Voltou ao inicio: encerrar
-                            break
-                    else:
-                        dup_consecutivos = 0
-                        ids_set.add(sid)
-                        story_ids.append(sid)
-                    ultimo_sid = sid
-            # TAP no lado direito — simula toque real em viewport mobile
-            vp = page.viewport_size or {"width": 430, "height": 932}
-            page.touchscreen.tap(int(vp["width"] * 0.82), int(vp["height"] * 0.45))
-            # Aguardar ate 8s pela mudanca de URL (GitHub Actions / CDN pode ser lento)
-            for _ in range(53):
-                page.wait_for_timeout(150)
-                if page.url != cur:
-                    page.evaluate("() => { const v = document.querySelector('video'); if (v) v.pause(); }")
-                    break
-
-        # Remover listener apos loop (captura IDs durante toda a navegacao)
-        page.remove_listener("response", _capturar_ids_api)
-
-        # Suplementar story_ids com api_ids capturados via rede (mais completo)
-        print(f"  {nome}: Pass1 tap={len(story_ids)} IDs, api={len(api_ids)} IDs")
-        for aid in api_ids:
-            if aid not in ids_set:
-                ids_set.add(aid)
-                story_ids.append(aid)
-
-    except Exception as e:
-        try:
-            page.remove_listener("response", _capturar_ids_api)
-        except Exception:
-            pass
-        print(f"  {nome}: erro ao coletar IDs — {e}")
+    print(f"  {nome}: Pass1 final — {len(story_ids)} IDs + {'URL generica' if story1_url_generica else 'sem generica'}")
 
     # Se nao ha stories e nao temos URL generica para capturar, sair
     if not story_ids and not story1_url_generica:
