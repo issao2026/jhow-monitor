@@ -366,22 +366,17 @@ def capturar_stories_instagram(page, username, nome, run_dir):
         total_tap = len(s_ids) + (1 if s_url else 0)
         print(f"  {nome}: Pass1 tentativa {tentativa} — {len(s_ids)} IDs tap + {'URL generica' if s_url else 'sem URL generica'}")
 
-        # Se nao tem stories: confirmar com tentativa extra so se tentativa 1
-        if total_tap == 0 and tentativa == 1:
-            continue
-
         # Se capturou mais que na tentativa anterior, usar esses IDs
         if len(s_ids) > len(story_ids):
             story_ids = s_ids
             ids_set   = s_set
             story1_url_generica = s_url
 
-        # Se capturou > 1 ID via tap (tem mais de 1 story com ID), confiar
-        if len(s_ids) >= 1:
+        # Parar so se capturou muitos stories (conta muito ativa) — evita demora
+        if len(s_ids) >= 20:
             break
 
-        # Se so tem URL generica (1 story) e nao ha IDs, pode ser que realmente
-        # so tem 1 story — mas fazer mais 1 tentativa para confirmar
+        # Sempre tentar todas as tentativas e guardar o melhor resultado
         if tentativa < MAX_TENTATIVAS:
             page.wait_for_timeout(3000)
 
