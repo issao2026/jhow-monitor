@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
     # Disparado automaticamente ao abrir jhow-motos.surge.sh
     # ou manualmente pela aba Actions do GitHub
+  schedule:
+    # Roda a cada hora entre 6h e 22h (horario Brasilia = UTC-3)
+    # UTC: 9h-01h (9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,0,1)
+    - cron: '0 9-23,0,1 * * *'
 
 jobs:
   monitor:
