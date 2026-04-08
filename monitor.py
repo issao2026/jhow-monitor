@@ -1111,14 +1111,6 @@ def publicar_surge(run_dir, timestamp, resultados):
         SURGE_DIR.mkdir(exist_ok=True)
         html_standalone = gerar_html_standalone(resultados, timestamp, run_dir)
 
-        # Injetar botao "Atualizar Stories" com URL do tunnel cloudflared
-        tunnel_url = ""
-        tunnel_file = JHOW_DIR / "tunnel_url.txt"
-        if tunnel_file.exists():
-            try:
-                tunnel_url = tunnel_file.read_text(encoding="utf-8").strip()
-            except Exception:
-                pass
         # Injetar script de auto-atualizacao via GitHub Actions
         # Token lido de env var (nao hardcoded no codigo)
         GH_TOKEN  = os.environ.get("WORKFLOW_TOKEN", "")
