@@ -1050,12 +1050,26 @@ ${{pagHtml}}
 
 
 # ── Netlify ───────────────────────────────────────────────────────────────────
-def _img_base64(path: Path) -> str:
-    """Converte imagem em data URI base64."""
-    import base64
-    ext = path.suffix.lower().lstrip(".")
-    mime = "image/jpeg" if ext in ("jpg", "jpeg") else "image/png"
-    return f"data:{mime};base64,{base64.b64encode(path.read_bytes()).decode()}"
+def _img_base64(path: Path, max_width: int = 320, quality: int = 52) -> str:
+    """Converte imagem em data URI base64 com compressao (Pillow se disponivel)."""
+    import base64, io as _io
+    raw = path.read_bytes()
+    try:
+        from PIL import Image as _Img
+        img = _Img.open(_io.BytesIO(raw)).convert("RGB")
+        # Redimensionar mantendo proporcao (max_width px de largura)
+        w, h = img.size
+        if w > max_width:
+            img = img.resize((max_width, int(h * max_width / w)), _Img.LANCZOS)
+        buf = _io.BytesIO()
+        img.save(buf, format="JPEG", quality=quality, optimize=True)
+        data = buf.getvalue()
+        return f"data:image/jpeg;base64,{base64.b64encode(data).decode()}"
+    except Exception:
+        # Sem Pillow: embute raw sem compressao
+        ext = path.suffix.lower().lstrip(".")
+        mime = "image/jpeg" if ext in ("jpg", "jpeg") else "image/png"
+        return f"data:{mime};base64,{base64.b64encode(raw).decode()}"
 
 def gerar_html_standalone(resultados, timestamp, run_dir):
     """Gera HTML auto-contido com imagens embutidas em base64."""
